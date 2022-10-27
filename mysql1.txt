@@ -1,0 +1,15 @@
+Zad.1
+CREATE TABLE postac (id_postaci INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, nazwa VARCHAR(40) NOT NULL, rodzaj ENUM('wiking','ptak','kobieta'), data_ur DATE, wiek INTEGER UNSIGNED);
+INSERT INTO postac VALUES(1,'bjorn','wiking','2000-02-02',22);
+INSERT INTO postac VALUES(2,'drozd','ptak','2022-01-01',1);
+INSERT INTO postac VALUES(3,'tesciowa','kobieta','1944-03-07',80);
+UPDATE postac SET wiek=88 WHERE nazwa='tesciowa';
+Zad.2
+CREATE TABLE walizka (id_walizki INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,pojemnosc INTEGER UNSIGNED,kolor ENUM('rozowy','czerwony','teczowy','zolty'),id_wlasciciela INTEGER, FOREIGN KEY(id_wlasciciela) REFERENCES postac(id_postaci) ON DELETE CASCADE);
+ALTER TABLE walizka ALTER kolor SET DEFAULT 'rozowy';
+INSERT INTO walizka VALUES(1,25,'czerwony',1);
+INSERT INTO walizka VALUES(2,60,'rozowy',3);
+Zad.3
+CREATE TABLE izba(adres_budynku INTEGER 
+
+
