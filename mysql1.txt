@@ -1,3 +1,5 @@
+Lekcja 1:
+
 Zad.1
 CREATE TABLE postac (id_postaci INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, nazwa VARCHAR(40) NOT NULL, rodzaj ENUM('wiking','ptak','kobieta'), data_ur DATE, wiek INTEGER UNSIGNED);
 INSERT INTO postac VALUES(1,'bjorn','wiking','2000-02-02',22);
@@ -28,3 +30,15 @@ INSERT INTO statek VALUES ('Aurora','transportowy','1900-11-10',2137);
 INSERT INTO statek VALUES ('Sneki','transportowy','1917-10-11',1337);
 ALTER TABLE postac ADD funkcja VARCHAR(35);
 UPDATE postac SET funkcja='kapitan' WHERE nazwa='bjorn';
+ALTER TABLE postac ADD id_statku VARCHAR(40), ADD FOREIGN KEY (id_statku) REFERENCES statek (nazwa);
+UPDATE postac SET id_statku='Sneki' WHERE rodzaj='wiking';
+UPDATE postac SET id_statku='Sneki' WHERE rodzaj='ptak';
+DELETE FROM izba WHERE nazwa_izby = 'spizarnia';
+DROP TABLE izba;
+
+Lekcja 2:
+
+Zad.1
+DELETE FROM postac WHERE wiek=25;
+DELETE FROM postac WHERE wiek=26;
+ALTER TABLE postac DROP PRIMARY KEY;
