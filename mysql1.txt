@@ -18,4 +18,13 @@ Zad.4
 CREATE TABLE przetwory(id_przetworu INTEGER PRIMARY KEY, rok_produkcji YEAR DEFAULT (1654), id_wykonawcy INTEGER, zawartosc VARCHAR(40), dodatek VARCHAR(40) DEFAULT ('papryczka_chilli'), id_konsumenta INTEGER, FOREIGN KEY (id_wykonawcy) REFERENCES postac(id_postaci), FOREIGN KEY (id_konsumenta) REFERENCES postac(id_postaci));
 INSERT INTO przetwory VALUES(1,2000,1,'bigos_z_papryczka_chilli','papryczka_chilli',3);
 Zad.5
-
+INSERT INTO postac VALUES(4,'Dan','wiking','2000-02-02',22);
+INSERT INTO postac VALUES(5,'Diarf','wiking','1999-02-02',23);
+INSERT INTO postac VALUES(6,'Edgar','wiking','1998-02-02',24);
+INSERT INTO postac VALUES(7,'Finnvid','wiking','1997-02-02',25);
+INSERT INTO postac VALUES(8,'Gæda','wiking','1996-02-02',26);
+CREATE TABLE statek (nazwa VARCHAR(40) PRIMARY KEY NOT NULL, rodzaj ENUM ('hadnlowy','transportowy'), data_wodowania DATE, max_ladownosc INTEGER UNSIGNED);
+INSERT INTO statek VALUES ('Aurora','transportowy','1900-11-10',2137);
+INSERT INTO statek VALUES ('Sneki','transportowy','1917-10-11',1337);
+ALTER TABLE postac ADD funkcja VARCHAR(35);
+UPDATE postac SET funkcja='kapitan' WHERE nazwa='bjorn';
