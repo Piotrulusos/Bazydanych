@@ -41,4 +41,24 @@ Lekcja 2:
 Zad.1
 DELETE FROM postac WHERE wiek=25;
 DELETE FROM postac WHERE wiek=26;
+
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac DELETE id_postaci;
 ALTER TABLE postac DROP PRIMARY KEY;
+
+Zad.2
+ALTER TABLE postac ADD pesel INTEGER;
+UPDATE postac SET pesel=225456788 WHERE nazwa='Edgar';
+UPDATE postac SET pesel=225456188 WHERE nazwa='Diarf';
+UPDATE postac SET pesel=223456188 WHERE nazwa='Dan';
+UPDATE postac SET pesel=123456188 WHERE nazwa='tesciowa';
+UPDATE postac SET pesel=123456788 WHERE nazwa='drozd';
+UPDATE postac SET pesel=123456789 WHERE nazwa='Bjorn';
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+
+
+
+
