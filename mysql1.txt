@@ -58,6 +58,23 @@ UPDATE postac SET pesel=123456188 WHERE nazwa='tesciowa';
 UPDATE postac SET pesel=123456788 WHERE nazwa='drozd';
 UPDATE postac SET pesel=123456789 WHERE nazwa='Bjorn';
 ALTER TABLE postac ADD PRIMARY KEY(pesel);
+ALTER TABLE postac MODIFY COLUMN rodzaj ENUM('wiking','kobieta', 'ptak','syrena');
+INSERT INTO postac (pesel, nazwa, rodzaj) VALUES ('213721377','Gertruda Nieszczera', 'syrena');
+
+Zad.3
+ALTER TABLE postac ADD statek VARCHAR(40);
+UPDATE postac SET statek='czarna perla' WHERE nazwa='bjorn';
+UPDATE postac SET statek='czarna perla' WHERE nazwa like '%a%' AND wiek < 1000;
+
+Zad.4
+INSERT INTO postac(nazwa, wiek, pesel) VALUES ('Loko', 997, 973240601);
+CREATE TABLE marynarz LIKE postac;
+INSERT INTO marynarz SELECT * FROM postac WHERE statek IS NOT NULL;
+ALTER TABLE marynarz ADD FOREIGN KEY (pesel) REFERENCES postac(pesel);
+
+Zad.5
+UPDATE postac SET statek=null WHERE statek IS NOT NULL;
+DELETE FROM postac WHERE imie='Diarf'; # nie moge przez klucz obcy
 
 
 
