@@ -74,7 +74,11 @@ ALTER TABLE marynarz ADD FOREIGN KEY (pesel) REFERENCES postac(pesel);
 
 Zad.5
 UPDATE postac SET statek=null WHERE statek IS NOT NULL;
-DELETE FROM postac WHERE imie='Diarf'; # nie moge przez klucz obcy
+DELETE FROM postac WHERE imie='Diarf'; #nie moge usunac przez klucz
+DELETE FROM statek WHERE nazwa_statku IS NOT NULL;
+DROP TABLE statek; # muszę wklepać do puttiego
+
+
 
 
 
