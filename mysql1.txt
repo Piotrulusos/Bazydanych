@@ -76,8 +76,21 @@ Zad.5
 UPDATE postac SET statek=null WHERE statek IS NOT NULL;
 DELETE FROM postac WHERE imie='Diarf'; #nie moge usunac przez klucz
 DELETE FROM statek WHERE nazwa_statku IS NOT NULL;
-DROP TABLE statek; # muszę wklepać do puttiego
+DROP TABLE statek; # wklepałem
 
+Lekcja 3
+
+Zad.1
+CREATE TABLE kreatura AS SELECT * FROM wikingowie.kreatura;
+CREATE TABLE zasob AS SELECT * FROM wikingowie.zasob;
+CREATE TABLE ekwipunek AS SELECT * FROM wikingowie.ekwipunek;
+SELECT * FROM zasob;
+SELECT * FROM zasob WHERE rodzaj='jedzenie';
+SELECT DISTINCT zasob.idZasobu, zasob.ilosc FROM zasob, kreatura WHERE kreatura.idKreatury=1 OR kreatura.idKreatury=3 OR kreatura.idKreatury=5;
+
+Zad.2
+
+SELECT * FROM kreatura WHERE rodzaj!='wiedzma' AND udzwig >=50;
 
 
 
