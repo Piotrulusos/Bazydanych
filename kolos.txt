@@ -1,0 +1,184 @@
+zad. 1
+create table pracownik(id int auto_increment primary key, imie varchar(50) not null, nazwisko varchar(100) not null, data_urodzeni date, stanowisko enum('sprzedawca','magazynier','ksiegowa'));
+zad. 2
+insert into pracownik values(0,'Michal','Kornatowski','2003-08-03','magazynier');
+insert into pracownik values(0,'Jakun','zakowski','2002-08-03','sprzedawca');
+insert into pracownik values(0,'wiktor','karmowski','2003-06-23','ksiegowa');
+zad. 3
+create table dzial(id int auto_increment primary key, nazwa varchar(255));
+zad. 4
+insert into dzial values(0,'sprzedaz');
+insert into dzial values(0,'ksiegowosc');
+insert into dzial values(0,'magazyn');
+zad. 5
+alter table pracownik MODIFY COLUMN stanowisko enum ("sprzedawca","magazynier","ksiegowa") DEFAULT 'sprzedawca';
+zad. 6
+alter table pracownik add column pensja float(8,2);
+update pracownik set pensja=12345.22 where id=1;
+update pracownik set pensja=99999.99 where id=2;
+update pracownik set pensja=0.01 where id=3;
+zad.7
+alter table dzial change nazwa nazwa_dzialu varchar(255);
+alter table dzial change id id_dzialu int;
+alter table pracownik change imie imie_pracownika varchar(50) not null;
+alter table pracownik change id id_pracownika int;
+zad 8 
+delete from pracownik where id=3;
+zad 9
+alter table pracownik add column dzial int;
+alter table pracownik add foreign key(dzial) references dzial(id_dzialu);
+update pracownik set dzial=1 where id_pracownika=2;
+update pracownik set dzial=3 where id_pracownika=1;
+zadanie 10
+create table stanowisko (id_stanowiska int primary key, nazwa_stanowiska varchar(40));
+insert into stanowisko values(1, 'magazynier');
+insert into stanowisko values(2, 'sprzedawca');
+insert into stanowisko values(3, 'ksiegowa');
+zadanie 11
+alter table pracownik modify column stanowisko int;
+alter table pracownik add foreign key(stanowisko) references stanowisko(id_stanowiska);
+zadanie 12
+alter table pracownik drop foreign key pracownik_ibfk_1;
+alter table pracownik add foreign key (dzial) references dzial(id_dzialu) on delete set null;
+
+
+
+			część II podzapytania do bazy _firma_zti
+
+
+zad.1
+select nazwisko from pracownik order by nazwisko;
+zad. 2
+select imie, nazwisko, pensja from pracownik where year(data_urodzenia)>1979;
+zad. 3
+select * from pracownik where pensja between 3500 and 5000;
+zad. 4
+select towar from stan_magazynowy where ilosc >10;
+zad. 5
+select nazwa_towaru from towar where nazwa_towaru like 'A%' or nazwa_towaru like 'B%' or nazwa_towaru like 'C%';
+zad.6
+select id_klienta from klient WHERE czy_firma=0;
+zad. 7
+select *  from zamowienie order by data_zamowienia desc limit 10;
+zad. 8
+select * from pracownik order by pensja limit 5;
+zad. 9
+select nazwa_towaru from towar where nazwa_towaru not like '%a%' order by cena_zakupu desc limit 10;
+zad. 10
+select towar.nazwa_towaru from towar, stan_magazynowy, jednostka_miary where towar.id_towaru=stan_magazynowy.towar and stan_magazynowy.jm=jednostka_miary.id_jednostki and jednostka_miary.nazwa='szt' order by towar.nazwa_towaru asc, towar.cena_zakupu desc;
+zad. 11
+create table towary_powyzej_100(select * from towar where cena_zakupu>=100);
+zad 12 
+create table pracownik_50_plus like pracownik;
+select * into pracownik_50_plus from pracownik where (2023-year(data_urodzenia)>=50);
+
+
+		część III 
+
+
+zad 1 
+select pracownik.imie, pracownik.nazwisko, dzial.nazwa from pracownik, dzial where pracownik.dzial = dzial.id_dzialu;
+zad 2
+select towar.nazwa_towaru, kategoria.nazwa_kategori, stan_magazynowy.ilosc from stan_magazynowy, towar, kategoria where towar.id_towaru = stan_magazynowy.towar and towar.kategoria = kategoria.id_kategori order by stan_magazynowy.ilosc desc;
+zad 3
+select * from zamowienie, status_zamowienia where zamowienie.status_zamowienia = status_zamowienia.id_statusu_zamowienia and nazwa_statusu_zamowienia ="anulowane";
+zad 4
+select klient.* from klient, adres_klienta where klient.id_klienta = adres_klienta.id_adresu and miejscowosc = "Olsztyn";
+zad 5
+select jednostka_miary.* from jednostka_miary, stan_magazynowy where stan_magazynowy.towar  = jednostka_miary.id_jednostki and id_jednostki != jm;
+zad 6 
+select zamowienie.numer_zamowienia , towar.nazwa_towaru , pozycja_zamowienia.ilosc , pozycja_zamowienia.cena  from zamowienie, pozycja_zamowienia, towar where zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie and pozycja_zamowienia.towar = towar.id_towaru and year(zamowienie.data_zamowienia )=2018;
+zad 7 
+
+zad 8
+select pozycja_zamowienia.id_pozycji from pozycja_zamowienia, zamowienie where zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie order by zamowienie.data_zamowienia limit 5;
+zad. 9
+select zamowienie.id_zamowienia from zamowienie, status_zamowienia where zamowienie.status_zamowienia =status_zamowienia.id_statusu_zamowienia and status_zamowienia.nazwa_statusu_zamowienia!='zrealizowane';
+zad.10
+select * from adres_klienta where kod not like '__-___';
+
+		IV część
+
+zad. 1
+select imie, nazwisko, year(data_urodzenia) from pracownik;
+zad. 2
+select imie, nazwisko, (2023-year(data_urodzenia)) from pracownik;
+zad. 3
+select dzial.nazwa, count(pracownik.id_pracownika) from dzial, pracownik where dzial.id_dzialu = pracownik.dzial group by dzial.nazwa;
+zad. 4
+select kategoria.nazwa_kategori, count(towar.id_towaru) from towar, kategoria where towar.kategoria = kategoria.id_kategori group by kategoria.nazwa_kategori ;
+zad 5
+select kategoria.nazwa_kategori, towar.nazwa_towaru from kategoria, towar where towar.kategoria = kategoria.id_kategori;
+zad 6
+select round(avg(pensja),2) from pracownik;
+zad 7
+select round(avg(pensja),2) from pracownik where 2023-year(data_zatrudnienia )>=5;
+zad 8 
+select towar.nazwa_towaru, count(id_zamowienia ) as srednia from zamowienie, towar, pozycja_zamowienia where towar.id_towaru = pozycja_zamowienia.towar and pozycja_zamowienia.zamowienie = zamowienie.id_zamowienia group by nazwa_to
+waru order by srednia desc limit 10;
+zad 9 
+select zamowienie.numer_zamowienia, sum(pozycja_zamowienia.cena* pozycja_zamowienia.ilosc  ) from zamowienie, pozycja_zamowienia where pozycja_zamowienia.zamowienie = zamowienie.id_zamowienia and year(data_zamowienia)=2017 and month(data_zamowienia)<=3 group by numer_zamowienia ;
+zad 10
+select pracownik.imie , pracownik.nazwisko , sum(pozycja_zamowienia.cena* pozycja_zamowienia.ilosc) as a from pozycja_zamowienia, pracownik, zamowienie where pracownik.id_pracownika = zamowienie.klient  and zamowienie.id_zamowienia   = pozycja_zamowienia.zamowienie  group by imie, nazwisko order by a desc ;
+
+
+
+			CZĘŚĆ V
+zad 1
+select dzial.nazwa, avg(pensja), min(pensja ), max(pensja ) from dzial, pracownik where pracownik.dzial = dzial.id_dzialu group by dzial.nazwa ;
+zad 2 
+select klient.pelna_nazwa, sum(pozycja_zamowienia.ilosc * cena) as a from klient, pozycja_zamowienia, zamowienie where klient.id_klienta = zamowienie.klient and zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie group by id_zamowienia  order by a desc limit 10 ;
+zad 3 
+zamowienia.ilosc * pozycja_zamowienia.cena) as suma, year(zamowienie.data_zamowienia) from zamowienie, pozycja_zamowienia where pozycja_zamowienia.zamowienie = zamowienie.id_zamowienia group by year(data_zamowie
+nia)  order by suma desc;
+zad 4
+select sum(ilosc * cena) from zamowienie, pozycja_zamowienia, status_zamowienia where pozycja_zamowienia.zamowienie = zamowienie.id_zamowienia and zamowienie.status_zamowienia = status_zamowienia.id_statusu_zamowienia and nazwa_statusu_zamowienia = "anulowane" group by id_zamowienia ;
+zad 5 
+select count(id_zamowienia), sum(ilosc * cena), adres_klienta.miejscowosc from klient, adres_klienta, zamowienie, pozycja_zamowienia where adres_klienta.klient = klient.id_klienta and klient.id_klienta = zamowienie.klient and zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie group by miejscowosc ;
+zad 6 
+select sum(cena * ilosc ) from status_zamowienia, zamowienie, pozycja_zamowienia where status_zamowienia.id_statusu_zamowienia = zamowienie.status_zamowienia and zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie and status_zamowienia.nazwa_statusu_zamowienia ="zrealizowane";
+zad 7 
+select sum(pozycja_zamowienia.cena * ilosc ), year(zamowienie.data_zamowienia ) as rok from zamowienie, pozycja_zamowienia where pozycja_zamowienia.zamowienie =zamowienie.id_zamowienia group by rok;
+zad 8
+select stan_magazynowy.ilosc * towar.cena_zakupu, kategoria.nazwa_kategori from kategoria, towar, stan_magazynowy where kategoria.id_kategori =towar.kategoria and towar.id_towaru = stan_magazynowy.towar group by kategoria.nazwa_kategori ;
+zad 9
+select count(id_pracownika), month(pracownik.data_urodzenia ) as mies from pracownik group by mies order by mies;
+
+
+
+			CZĘŚĆ VI
+
+zad 1 
+select pracownik.imie , pracownik.nazwisko , pracownik.data_urodzenia from pracownik where month(pracownik.data_urodzenia)=month(curdate());
+zad 2 
+select B.imie, B.nazwisko, B. data_urodzenia, A.imie , A.nazwisko , A.data_urodzenia  from pracownik as A, pracownik as B where year(B.data_urodzenia)-year(A.data_urodzenia )>=10;
+zad 3
+select month(zamowienie.data_zamowienia) from zamowienie, pozycja_zamowienia  heving  group by month(data_zamowienia) order by sum(ilosc * cena) desc limit 1;
+zad 4
+
+zad. 5
+select pracownik.imie, pracownik.nazwisko, round((select sum(pozycja_zamowienia.ilosc * pozycja_zamowienia.cena) from pozycja_zamowienia)/(sum(ilosc * cena)*100),2) as procent from pracownik, dzial, zamowienie, pozycja_zamowienia where dzial.id_dzialu = pracownik.dzial and pracownik.id_pracownika =zamowienie.pracownik_id_pracownika and zamowienie.id_zamowienia = pozycja_zamowienia.zamowienie and dzial.id_dzialu = 2 group by pracownik.id_pracownika  order by procent desc  limit 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
